@@ -15,7 +15,7 @@ colors = {
 }
 
 wet_year = 2019
-dry_year = 2014
+dry_year = 2018
 
 print("="*80)
 print("COMPARATIVE ANALYSIS: WET vs DRY YEAR")
@@ -113,7 +113,7 @@ for idx, (station_id, station_name) in enumerate([('09180000', 'Dolores River Be
 
 
 # Overall figure title
-fig.suptitle('Comparative Hydrologic Analysis: Wet vs Dry Years (2014, 2019)\nDolores River (Regulated) vs Headwater Catchment (Unregulated)',
+fig.suptitle(f'Comparative Hydrologic Analysis: Wet vs Dry Years ({dry_year}, {wet_year})\nDolores River (Regulated) vs Headwater Catchment (Unregulated)',
             fontsize=15, fontweight='bold', y=0.995)
 
 plt.tight_layout()
