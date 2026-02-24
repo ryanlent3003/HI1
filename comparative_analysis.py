@@ -32,8 +32,12 @@ for station_id in ['09180000', '09183600']:
     df['DayOfYear'] = df['Datetime'].dt.dayofyear
     data_dict[station_id] = df
 
-# Create figure with 2 subplots (one per station)
-fig, axes = plt.subplots(1, 2, figsize=(18, 7))
+# Create figure with 2 subplots and a table panel
+fig = plt.figure(figsize=(18, 9))
+gs = fig.add_gridspec(2, 2, height_ratios=[3, 1], hspace=0.35)
+axes = [fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1])]
+table_ax = fig.add_subplot(gs[1, :])
+table_ax.axis('off')
 
 # For each station
 for idx, (station_id, station_name) in enumerate([('09180000', 'Dolores River Below Reservoir (Regulated)'),
@@ -112,11 +116,48 @@ for idx, (station_id, station_name) in enumerate([('09180000', 'Dolores River Be
     ax.set_xticklabels(month_labels)
 
 
+# Build quantitative comparison table
+table_rows = []
+row_labels = []
+for station_id, station_name in [('09180000', 'Dolores River Below Reservoir (Regulated)'),
+                                 ('09183600', 'Headwater Catchment (Unregulated)')]:
+    df = data_dict[station_id]
+    wet_vals = df[df['Year'] == wet_year]['USGS_flow']
+    dry_vals = df[df['Year'] == dry_year]['USGS_flow']
+    table_rows.append([
+        f"{wet_vals.mean():.1f}",
+        f"{wet_vals.max():.1f}",
+        f"{dry_vals.mean():.1f}",
+        f"{dry_vals.max():.1f}",
+    ])
+    row_labels.append(station_name.replace(' (Regulated)', '').replace(' (Unregulated)', ''))
+
+col_labels = [
+    f"Wet {wet_year} Mean",
+    f"Wet {wet_year} Peak",
+    f"Dry {dry_year} Mean",
+    f"Dry {dry_year} Peak",
+]
+
+table_ax.text(0.5, 1.05, 'Quantitative Comparison (ft³/s)',
+              ha='center', va='bottom', fontsize=12, fontweight='bold',
+              transform=table_ax.transAxes)
+
+table = table_ax.table(
+    cellText=table_rows,
+    rowLabels=row_labels,
+    colLabels=col_labels,
+    loc='center'
+)
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+table.scale(1, 1.4)
+
 # Overall figure title
 fig.suptitle(f'Comparative Hydrologic Analysis: Wet vs Dry Years ({dry_year}, {wet_year})\nDolores River (Regulated) vs Headwater Catchment (Unregulated)',
-            fontsize=15, fontweight='bold', y=0.995)
+            fontsize=15, fontweight='bold', y=0.98)
 
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.savefig('06_wet_dry_comparative_analysis.png', dpi=300, bbox_inches='tight')
 print("\n" + "="*80)
 print("Figure saved: 06_wet_dry_comparative_analysis.png")
