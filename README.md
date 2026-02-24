@@ -3,4 +3,4 @@ Using USGS streamflow data from three eastern Utah sites (Dolores River, Colorad
 
 ![Figure 01: Time series for all stations](01_timeseries_all_stations.png)
 Results show strong similarity in timing across sites but major differences in magnitude, largely controlled by drainage area. Larger basins (Colorado River) produced higher flows, while the small headwater basin had much lower discharge but flashier responses. Temporal aggregation smoothed variability at longer timescales. Reservoir regulation on the Dolores River attenuated peak flows and increased baseflow stability, especially compared to the unregulated headwater stream, which showed sharper, earlier snowmelt peaks and greater variability. To conclude, basin size and regulation strongly influence streamflow magnitude and variability, and these insights support reservoir operations, flood forecasting, seasonal planning, and drought management.
-The HI1 repository contains all of the code to reproudce the time series analysis done for this report. 
+The HI1 repository contains all of the code to reproduce the time series analysis done for this report. 
